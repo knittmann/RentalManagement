@@ -1,0 +1,9 @@
+// Babel allows ES6 code to be comiled to ES5 so that it is understood by both Express and Node.
+
+{
+    "presets": [
+
+        "@babel/preset-env"
+
+    ]
+}
