@@ -14,7 +14,7 @@ router.get('/', (req,res)=>{
 
 // GET BY RENTAL_ID
 router.get('/:_id', (req,res)=>{
-    RentalModel.findOne({_id: req.params.l_id}, function(err, rental){
+    RentalModel.findOne({_id: req.params._id}, function(err, rental){
         // console.log(req.params.rental_id);
         if(err) return res.status(500).json({error: err});
         if(!rental) return res.status(404).json({error: 'rental was not found'});
