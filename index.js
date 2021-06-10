@@ -9,10 +9,10 @@ server.use(express.static(__dirname+"/templates/css"));
 
 
 //IMPORT ROUTE
-const rentalRoute = require('./routes/rental');
+const rentalRoute = require('./routes/rentals');
 
 //INIT ROUTE
-server.use('/',rentalRoute);
+server.use('/api/rentals/', rentalRoute);
 
 // server.get('/',(req,res)=>{
 //     console.log("hi");

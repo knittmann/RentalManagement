@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const RentalSchema = new mongoose.Schema({
-        rental_id:{
-            type:Number,
-            required:true
-        },
+        
         receive_date:String,
         receive_hours:String,
         return_date:String,
@@ -26,7 +23,7 @@ const RentalSchema = new mongoose.Schema({
         },
         invoice:{
             invoice_date:String,
-            amount:Number
+            amount:String
         }
     },
     {
