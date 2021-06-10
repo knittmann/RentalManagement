@@ -1,45 +1,35 @@
 const express = require('express');
-const app = express();
-const path = require('path');
-const bodyParser = require('body-parser');
-
-app.use(bodyParser.urlencoded({exxtended:true}));
-app.use(bodyParser.json());
-
-
-app.use(express.static(path.join(__dirname,"templates")));
-
-const PORT = process.env.PORT || 3000 ;
-
-app.listen(PORT,()=> {
-        console.log(`Server is running at port: ${PORT}!`)
-});
-
-
+const server = express();
 const mongoose = require('mongoose');
-const { get } = require('http');
-const { kStringMaxLength } = require('buffer');
+require('dotenv').config({path:'variables.env'});
 
-mongoose.connect('mongodb://localhost:27017/rental',{useNewUrlParser:true})
-    .then(()=>{console.log("You are now connect to database!")})
-    .catch((err)=>console.log(err));
+server.use(express.urlencoded({extended: true}));
+server.use(express.json());
+server.use(express.static(__dirname+"/templates/css"));
 
-const UserSchema = new mongoose.Schema({
-    user_id:Number,
-    first_name:String,
-    last_name:String,
-    email:String,
-    password:String,
-    role:String
-});
 
-User = mongoose.model('User',UserSchema);
-let newUser = new User();
+//IMPORT ROUTE
+const rentalRoute = require('./routes/rental');
 
-newUser.save(function(error,data){
-    if(error){
-        console.log(error);
-    }else{
-        console.log('saved');
+//INIT ROUTE
+server.use('/',rentalRoute);
+
+// server.get('/',(req,res)=>{
+//     console.log("hi");
+//     res.send("hi");
+// })
+
+//MongDB Connection, Start Server
+server.listen(3000,(err)=>{
+    if (err) {
+        return console.log(err);
+    } else {
+        mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Connected to database successfully");
+            }
+        })
     }
 });
