@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get a specific user by id
-router.get('/:_id', (req, res) => {
+router.get('/:_id', verify, (req, res) => {
     UserModel.findOne({_id: req.params._id}, function(err, user){
         if(err) return res.status(500).json({error: err});
         if(!user) return res.status(404).json({error: 'User was not found'});
@@ -26,7 +26,7 @@ router.get('/:_id', (req, res) => {
 });
 
 // Update a user by id
-router.put('/edit/:_id', verify, (req, res) => {
+router.put('/edit/:_id', (req, res) => {
     UserModel.updateOne({ _id: req.params._id }, { $set: req.body }, function(err, output){
         if(err) res.status(500).json({ error: 'database failure' });
         console.log(output);
