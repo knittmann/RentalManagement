@@ -16,17 +16,12 @@ const userRoute = require('./routes/users');
 server.use('/api/rentals/', rentalRoute);
 server.use('/api/users/', userRoute);
 
-// server.get('/',(req,res)=>{
-//     console.log("hi");
-//     res.send("hi");
-// })
-
 //MongDB Connection, Start Server
 server.listen(3000,(err)=>{
     if (err) {
         return console.log(err);
     } else {
-        mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
+        mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
             if (err) {
                 console.log(err);
             } else {
