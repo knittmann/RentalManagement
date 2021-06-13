@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get a specific user by id
-router.get('/:_id', verify, (req, res) => {
+router.get('/:_id', (req, res) => {
     UserModel.findOne({_id: req.params._id}, function(err, user){
         if(err) return res.status(500).json({error: err});
         if(!user) return res.status(404).json({error: 'User was not found'});
@@ -70,8 +70,13 @@ router.post("/login", async (req, res) => {
     if (!validPassword) return res.status(400).send('Password is incorrect');
 
     // Create and assign a JSON Web Token
-    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send(token);
+    const jwtToken = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, {expiresIn: "1h"});
+    // res.header('auth-token', token).send(token);
+    res.status(200).json({
+        token: jwtToken,
+        expiresIn: 3600,
+        _id: user._id
+    });
 });
 
 // Delete a user by id
